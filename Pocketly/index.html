@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pocketly – Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F8F5F0', sage: '#4A7C59',
+            'sage-light': '#6B9E7B', 'sage-dark': '#2F5540', 'sage-muted': '#E8F0EB',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Shared navbar (injected by components.js) -->
+  <div id="navbar" class="navbar"></div>
+
+  <main class="page-wrapper">
+
+    <!-- ── PAGE HEADER ──────────────────────── -->
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <p id="dateLabel" class="text-sm text-gray-400 mt-0.5"></p>
+      </div>
+      <a href="add-transaction.html" class="btn btn--primary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+        </svg>
+        Add Transaction
+      </a>
+    </div>
+
+    <!-- ── SUMMARY CARDS ─────────────────────── -->
+    <section aria-label="Financial summary" class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+
+      <!-- Balance -->
+      <div class="summary-card rounded-2xl" style="background:var(--sage-dark);color:#fff;border-color:transparent">
+        <p class="text-xs font-semibold uppercase tracking-widest mb-1" style="color:#9ECFB0">Total Balance</p>
+        <p id="totalBalance" class="text-3xl font-bold tracking-tight">Rp0</p>
+      </div>
+
+      <!-- Income -->
+      <div class="summary-card rounded-2xl">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-7 h-7 rounded-full flex items-center justify-center" style="background:var(--sage-muted)">
+            <svg class="w-3.5 h-3.5 text-sage-dark" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7 7 7M12 3v18"/>
+            </svg>
+          </span>
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Total Income</p>
+        </div>
+        <p id="totalIncome" class="text-xl font-bold" style="color:var(--income)">Rp0</p>
+      </div>
+
+      <!-- Expenses -->
+      <div class="summary-card rounded-2xl">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-7 h-7 rounded-full flex items-center justify-center" style="background:var(--expense-bg)">
+            <svg class="w-3.5 h-3.5" style="color:var(--expense)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7-7-7M12 21V3"/>
+            </svg>
+          </span>
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Total Expenses</p>
+        </div>
+        <p id="totalExpenses" class="text-xl font-bold" style="color:var(--expense)">Rp0</p>
+      </div>
+    </section>
+
+    <!-- ── MONTHLY OVERVIEW ───────────────────── -->
+    <section aria-label="Monthly overview" class="card rounded-2xl mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="section-title mb-0">Monthly Overview</h2>
+        <span id="currentMonthLabel" class="text-sm font-medium text-gray-500"></span>
+      </div>
+      <div class="space-y-3">
+        <!-- Income bar -->
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="font-medium text-gray-700">Income</span>
+            <span id="monthIncome" class="font-semibold" style="color:var(--income)">Rp0</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="monthIncomeBar" class="progress-bar-fill" style="width:0%;background:var(--sage)"></div>
+          </div>
+        </div>
+        <!-- Expense bar -->
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="font-medium text-gray-700">Expenses</span>
+            <span id="monthExpenses" class="font-semibold" style="color:var(--expense)">Rp0</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="monthExpensesBar" class="progress-bar-fill" style="width:0%;background:var(--expense)"></div>
+          </div>
+        </div>
+        <!-- Net -->
+        <div class="flex justify-between items-center pt-2 border-t border-gray-100">
+          <span class="text-sm font-semibold text-gray-700">Net this month</span>
+          <span id="monthNet" class="font-bold text-base">Rp0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── RECENT TRANSACTIONS ────────────────── -->
+    <section aria-label="Recent transactions">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="section-title mb-0">Recent Transactions</h2>
+        <a href="history.html" class="text-sm font-medium" style="color:var(--sage)">View All →</a>
+      </div>
+      <div id="recentList" class="space-y-2"></div>
+      <!-- Empty state -->
+      <div id="emptyState" class="empty-state hidden">
+        <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M3 12a9 9 0 1118 0A9 9 0 013 12z"/>
+        </svg>
+        <p class="text-sm font-medium mt-2">No transactions yet.</p>
+        <a href="add-transaction.html" class="inline-block mt-3 btn btn--primary text-sm">Add your first transaction</a>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="storage.js"></script>
+  <script src="components.js"></script>
+  <script src="chat.js"></script>
+  <script src="script.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', initChat);</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pocketly – Add Transaction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F8F5F0', sage: '#4A7C59',
+            'sage-light': '#6B9E7B', 'sage-dark': '#2F5540', 'sage-muted': '#E8F0EB',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="navbar" class="navbar"></div>
+
+  <main class="page-wrapper" style="max-width:640px">
+
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-6">
+      <a href="index.html" class="btn btn--ghost" aria-label="Back to dashboard">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </a>
+      <div>
+        <h1 class="text-xl font-bold text-gray-900">Add Transaction</h1>
+        <p class="text-sm text-gray-400">Record a new income or expense</p>
+      </div>
+    </div>
+
+    <!-- Form card -->
+    <div class="card rounded-2xl">
+      <form id="addForm" novalidate class="space-y-5">
+
+        <!-- Name -->
+        <div class="form-group">
+          <label for="txName" class="form-label">Transaction Name <span class="text-red-400">*</span></label>
+          <input id="txName" type="text" class="form-control" placeholder="e.g. Lunch at Warung Makan" autocomplete="off" />
+          <span id="txNameError" class="form-error hidden">Name cannot be empty.</span>
+        </div>
+
+        <!-- Type -->
+        <div class="form-group">
+          <label class="form-label">Type <span class="text-red-400">*</span></label>
+          <div class="flex gap-3">
+            <label class="type-option flex-1">
+              <input type="radio" name="txType" value="income" />
+              <span class="type-label">⬆ Income</span>
+            </label>
+            <label class="type-option flex-1">
+              <input type="radio" name="txType" value="expense" />
+              <span class="type-label">⬇ Expense</span>
+            </label>
+          </div>
+          <span id="txTypeError" class="form-error hidden">Please select a type.</span>
+        </div>
+
+        <!-- Amount -->
+        <div class="form-group">
+          <label for="txAmount" class="form-label">Amount (Rp) <span class="text-red-400">*</span></label>
+          <input id="txAmount" type="number" min="1" class="form-control" placeholder="0" />
+          <span id="txAmountError" class="form-error hidden">Amount must be greater than 0.</span>
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+          <label for="txCategory" class="form-label">Category <span class="text-red-400">*</span></label>
+          <select id="txCategory" class="form-control form-control--select">
+            <option value="">— Select a type first —</option>
+          </select>
+          <span id="txCategoryError" class="form-error hidden">Please select a category.</span>
+        </div>
+
+        <!-- Date -->
+        <div class="form-group">
+          <label for="txDate" class="form-label">Date <span class="text-red-400">*</span></label>
+          <input id="txDate" type="date" class="form-control" />
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="txDesc" class="form-label">Description <span class="text-gray-400 font-normal normal-case">(optional)</span></label>
+          <textarea id="txDesc" class="form-control" rows="2" placeholder="Additional notes…" style="resize:vertical"></textarea>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-3 pt-1">
+          <a href="index.html" class="btn btn--outline flex-1">Cancel</a>
+          <button type="submit" class="btn btn--primary flex-1">Save Transaction</button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <script src="storage.js"></script>
+  <script src="components.js"></script>
+  <script src="chat.js"></script>
+  <script src="add-transaction.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', initChat);</script>
+</body>
+</html>
